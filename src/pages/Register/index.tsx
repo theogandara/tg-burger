@@ -1,44 +1,62 @@
-import { Flex, Text, Heading, VStack, Center } from "@chakra-ui/layout";
-import { Button} from "@chakra-ui/react";
+import { Flex, Text, Heading, VStack } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/react";
 import { FiShoppingBag } from "react-icons/fi";
 import { Input } from "../../components/Input";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 
 const SignInSchema = yup.object().shape({
-  email: yup.string().required("*Email obrigatório").email("*Digite um email válido"),
-  password: yup.string().required("*Senha obrigatória").min(6,"*Senha fraca"),
+  name: yup.string().required("*Nome obrigatório").min(2,"*Nome muito curto"),
+  email: yup
+    .string()
+    .required("*Email obrigatório")
+    .email("*Digite um email válido"),
+  password: yup.string().required("*Senha obrigatória").min(6, "*Senha fraca"),
+  confirm_password: yup.string().required("*Confirme sua senha").min(6, "*Senha fraca"),
 });
 
-interface SignInData {
+
+interface RegisterData {
+  name: string;
   email: string;
   password: string;
+  confirm_password: string;
 }
 
-const Login = () => {
+const Register = () => {
   const {
     formState: { errors },
     register,
     handleSubmit,
-  } = useForm<SignInData>({
+  } = useForm<RegisterData>({
     resolver: yupResolver(SignInSchema),
   });
 
-  const history = useHistory();
 
-  const handleSignIn = (data: SignInData) => console.log(data);
+const history = useHistory()
+
+  const handleSignIn = (data: RegisterData) => {
+    history.push("/dashboard")
+    console.log(data);
+  }
 
   return (
     <Flex
-      height={["auto","auto","100vh","100vh"]}
+      height={["auto", "auto", "100vh", "100vh"]}
       background="white.0"
       padding="10px 15px"
       alignItems="center"
       justifyContent="space-evenly"
       w="100vw"
-      flexDirection={["column-reverse","column-reverse","row", "row"]}
+      flexDirection={[
+        "column-reverse",
+        "column-reverse",
+        "row-reverse",
+        "row-reverse",
+      ]}
     >
       <Flex
         as="form"
@@ -57,40 +75,68 @@ const Login = () => {
         alignSelf="center"
         flexDirection="column"
       >
-        <Heading mt="5px" w="90%" ml="3" fontSize="md">
-          Login
+        <Heading
+          display="flex"
+          alignItems="baseline"
+          mt="5px"
+          w="90%"
+          ml="3"
+          fontSize="md"
+        >
+          Cadastro
+          <Text
+            mt="3"
+            w="80%"
+            color="grey.300"
+            textAlign="center"
+            fontSize="xs"
+            as='u'
+          >
+            <Link to="/">Retornar para o Login</Link>
+          </Text>
         </Heading>
-        <VStack w="100vw" mt="6" spacing="4">
+        <VStack mt="6" spacing="4">
           <Input
+            placeholder="Insira seu nome"
+            label="Nome"
+            error={errors.name}
+            {...register("name")}
+          />
+          <Input
+            type="email"
             placeholder="Insira seu email"
             label="Email"
             error={errors.email}
             {...register("email")}
-            />
+          />
+
           <Input
             type="password"
-            placeholder="Insira sua senha"
+            placeholder="Crie uma senha"
             label="Senha"
             error={errors.password}
             {...register("password")}
           />
+
+          <Input
+            type="password"
+            placeholder="Confirme sua senha"
+            label="Senha"
+            error={errors.confirm_password}
+            {...register("confirm_password")}
+          />
         </VStack>
+
         <Button
-          color="white.0"
+          _hover={{ backgroundColor: "grey.0" }}
+          color="grey.300"
           fontSize="sm"
-          background="green.500"
+          background="grey.100"
           mt="20px"
+          w="80vw"
+          maxWidth="350px"
           type="submit"
-          w="80vw" maxWidth="350px"
         >
-          Logar
-        </Button>
-
-        <Center mt="3" w="80%" color="grey.300" textAlign="center" fontSize="xs">
-          Crie sua conta para saborear muitas delícias e matar sua fome!
-        </Center>
-
-        <Button _hover={{backgroundColor: "grey.0"}} color="grey.300" fontSize="sm" background="grey.100" mt="10px" w="80vw" maxWidth="350px" onClick={()=> history.push("/register")}>
           Cadastrar
         </Button>
       </Flex>
@@ -102,7 +148,7 @@ const Login = () => {
         width="100vw"
         alignItems="center"
         maxWidth="350px"
-        ml={["0","0","20px","20px"]}
+        ml={["0", "0", "20px", "20px"]}
       >
         <Heading
           fontSize="2xl"
@@ -137,7 +183,7 @@ const Login = () => {
           <Flex
             w="60px"
             m="10px"
-            background="green.1"
+            background="#E9F7EF"
             h="60px"
             alignItems="center"
             justifyContent="center"
@@ -146,8 +192,15 @@ const Login = () => {
           >
             <FiShoppingBag color="#27AE60" fontSize="20px" />
           </Flex>
-          <Text p="10px" fontSize="small" width="270px" height="75px" color="grey.300">
-            A vida é como um sanduíche, é preciso recheá-la com os <b>melhores</b> ingredientes.
+          <Text
+            p="10px"
+            fontSize="small"
+            width="270px"
+            height="75px"
+            color="grey.300"
+          >
+            A vida é como um sanduíche, é preciso recheá-la com os{" "}
+            <b>melhores</b> ingredientes.
           </Text>
         </Flex>
       </Flex>
@@ -155,4 +208,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

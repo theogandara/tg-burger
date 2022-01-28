@@ -59,7 +59,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 
   return (
     <>
-      <FormControl isInvalid={!!error}>
+      <FormControl w="80vw" maxWidth="350px" isInvalid={!!error}>
         {!!label && (
           <FormLabel color={inputVariation[variation]} mb="0px" fontSize="xs">
             {label}
@@ -83,7 +83,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
             _placeholder={{ color: "grey.300", size: "20px" }}
           />
 
-          <Box w="100%" h="8px">{!!error &&  <FormErrorMessage fontSize="xs">{error.message}</FormErrorMessage>}</Box>
+          <Box w="50%" h="8px">{!!error &&  <FormErrorMessage fontSize="xs">{error.message}</FormErrorMessage>}</Box>
         </InputGroup>
       </FormControl>
     </>
