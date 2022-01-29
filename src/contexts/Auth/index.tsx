@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: CartProps) => {
   // Função para logar na aplicação, recebe os dados pegos do form de login
   const signIn = (userData: UserData) => {
     axios
-      .post("http://localhost:3001/login", userData)
+      .post("https://server-hamburgueria-theo.herokuapp.com/login", userData)
       .then((response) => {
         // setamos no localStorage o token, caso tenhamos a resposta esperada
         localStorage.setItem("token", response.data.token);
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: CartProps) => {
 
   const signUp = (userRegisterData: UserRegisterData) => {
     axios
-      .post("http://localhost:3001/register", userRegisterData)
+      .post("https://server-hamburgueria-theo.herokuapp.com/register", userRegisterData)
       .then((response) => {
         // redirecionamos para a página logado
         history.push("/");
