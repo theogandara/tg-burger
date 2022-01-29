@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router";
+import { useAuth } from "../../contexts/Auth";
 
 const SignInSchema = yup.object().shape({
   email: yup.string().required("*Email obrigatório").email("*Digite um email válido"),
@@ -18,6 +19,9 @@ interface SignInData {
 }
 
 const Login = () => {
+
+  const { signIn } = useAuth();
+
   const {
     formState: { errors },
     register,
@@ -28,7 +32,9 @@ const Login = () => {
 
   const history = useHistory();
 
-  const handleSignIn = (data: SignInData) => console.log(data);
+  const handleSignIn = (data: SignInData) => {
+    signIn(data)
+  };
 
   return (
     <Flex

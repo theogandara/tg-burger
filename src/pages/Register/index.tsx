@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
+import { useAuth } from "../../contexts/Auth";
 
 const SignInSchema = yup.object().shape({
   name: yup.string().required("*Nome obrigatório").min(2,"*Nome muito curto"),
@@ -15,7 +16,7 @@ const SignInSchema = yup.object().shape({
     .required("*Email obrigatório")
     .email("*Digite um email válido"),
   password: yup.string().required("*Senha obrigatória").min(6, "*Senha fraca"),
-  confirm_password: yup.string().required("*Confirme sua senha").min(6, "*Senha fraca"),
+  confirm_password: yup.string().required("*Confirme sua senha").min(6, "*Senha fraca").oneOf([yup.ref('password'), null], '*As senhas são diferentes'),
 });
 
 
@@ -27,6 +28,9 @@ interface RegisterData {
 }
 
 const Register = () => {
+
+  const { signUp } = useAuth();
+
   const {
     formState: { errors },
     register,
@@ -39,8 +43,7 @@ const Register = () => {
 const history = useHistory()
 
   const handleSignIn = (data: RegisterData) => {
-    history.push("/dashboard")
-    console.log(data);
+    signUp(data)
   }
 
   return (
@@ -121,7 +124,7 @@ const history = useHistory()
           <Input
             type="password"
             placeholder="Confirme sua senha"
-            label="Senha"
+            label="Confirme sua senha"
             error={errors.confirm_password}
             {...register("confirm_password")}
           />
