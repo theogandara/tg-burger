@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }: CartProps) => {
 
   const loadProducts = () => {
     axios
-      .get("http://localhost:3001/vitrine")
+      .get("https://server-hamburgueria-theo.herokuapp.com/vitrine")
       .then((response) => {
         // alterando o valor de [] para os produtos
         setProducts(response.data);
