@@ -19,13 +19,11 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 
-
 const Dashboard = () => {
-
-  const { loadProducts, products, addCart, cart} = useAuth();
+  const { loadProducts, Logout, products, cart, removeAll } = useAuth();
 
   useEffect(() => {
-    loadProducts()
+    loadProducts();
   },[]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,9 +74,28 @@ const Dashboard = () => {
 
             <Flex ml="2" flexDirection="row" flexWrap="nowrap">
               <Button bg="grey.0" w="50px" ml="1" onClick={onOpen}>
+                {cart.length > 0 && (
+                  <Text
+                    h="13px"
+                    display="flex"
+                    justifyContent="center"
+                    fontSize="9px"
+                    position="absolute"
+                    left="26px"
+                    top="7px"
+                    bg="green.500"
+                    borderRadius="50%"
+                    color="white.0"
+                    w="13px"
+                    alignItems="center"
+                  >
+                    {cart.length}
+                  </Text>
+                )}
+
                 <AiOutlineShoppingCart />
               </Button>
-              <Button bg="grey.0" w="50px" ml="1">
+              <Button onClick={()=> Logout()} bg="grey.0" w="50px" ml="1">
                 <FiLogOut />
               </Button>
             </Flex>
@@ -109,23 +126,33 @@ const Dashboard = () => {
         </Flex>
       </Flex>
       {/* Modal */}
-      <Modal size="md" scrollBehavior="inside" isOpen={isOpen} onClose={onClose}>
+      <Modal
+        size="md"
+        scrollBehavior="inside"
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay color="white.0" />
-        <ModalContent >
+        <ModalContent>
           <ModalHeader color="white.0" bg="green.500">
             Carrinho de compras
           </ModalHeader>
           <ModalCloseButton color="white.0" />
 
-          {cart.length < 1 && <Text>Sua sacola está vazia</Text>}
+          {cart.length < 1 && (
+            <Text h="40px " w="100%" mt="6" textAlign="center">
+              Sua sacola está vazia
+            </Text>
+          )}
 
           {/* itens do carrinho */}
-          <ModalBody h={["300px","350px","400px"]}  w="100%">
+          <ModalBody h={["300px", "350px", "400px"]} w="100%">
             {cart.map((cartProduct) => (
-              <CardModal  image={cartProduct.img}
-              title={cartProduct.name}
-              price={cartProduct.price}
-              key={cartProduct.id}
+              <CardModal
+                image={cartProduct.img}
+                title={cartProduct.name}
+                key={cartProduct.id}
+                product={cartProduct}
               />
             ))}
           </ModalBody>
@@ -134,7 +161,7 @@ const Dashboard = () => {
             <Button color="green.500" mr={3} onClick={onClose}>
               Finalizar compra
             </Button>
-            <Button variant="ghost">Excluir todos</Button>
+            <Button onClick={()=> removeAll()} variant="ghost">Excluir todos</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

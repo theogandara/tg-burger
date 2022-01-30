@@ -33,7 +33,9 @@ interface AuthProviderData {
   products: Product[];
   Logout: () => void;
   addCart: (toBeAdded: Product) => void;
+  removeCart: (toBeDeleted: Product) => void;
   cart: Product[];
+  removeAll: () => void;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -53,6 +55,19 @@ export const AuthProvider = ({ children }: CartProps) => {
   const addCart = (toBeAdded: Product) => {
     setCart([...cart, toBeAdded]);
   };
+
+  const removeCart = (toBeDeleted: Product) => {
+    setCart(
+      cart.filter((element) => {
+        return toBeDeleted.id !== element.id;
+      })
+    );
+  };
+
+  const removeAll = () => {
+  setCart([]);
+};
+
 
   // Função para logar na aplicação, recebe os dados pegos do form de login
   const signIn = (userData: UserData) => {
@@ -110,6 +125,8 @@ export const AuthProvider = ({ children }: CartProps) => {
         signUp,
         Logout,
         signIn,
+        removeCart,
+        removeAll
       }}
     >
       {children}
