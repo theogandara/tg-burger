@@ -85,7 +85,10 @@ export const AuthProvider = ({ children }: CartProps) => {
         // redirecionamos para a página logado
         history.push("/dashboard");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Email e/ou senha incorretos");
+        console.log(err);
+      });
   };
 
   const signUp = (userRegisterData: UserRegisterData) => {
@@ -100,7 +103,7 @@ export const AuthProvider = ({ children }: CartProps) => {
         history.push("/");
       })
       .catch((err) => {
-        toast.error("Email e/ou senha incorretos");
+        toast.error("Email já cadastrado");
         console.log(err);
       });
   };
