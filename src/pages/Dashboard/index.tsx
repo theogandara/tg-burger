@@ -66,7 +66,7 @@ const Dashboard = () => {
                 placeholder="Digitar Pesquisa"
               />
               <InputRightElement mr="2">
-                <Button h="1.75rem" bg="green.500" size="sm">
+                <Button h="1.75rem" bg="green.500" size="sm" >
                   <BiSearch color="#fff" />
                 </Button>
               </InputRightElement>

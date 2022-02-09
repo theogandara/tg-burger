@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 interface CartProps {
@@ -53,10 +54,12 @@ export const AuthProvider = ({ children }: CartProps) => {
   const [cart, setCart] = useState<Product[]>([]);
 
   const addCart = (toBeAdded: Product) => {
+    toast.success("Produto adicionado ao carrinho");
     setCart([...cart, toBeAdded]);
   };
 
   const removeCart = (toBeDeleted: Product) => {
+    toast.error("Produto removido");
     setCart(
       cart.filter((element) => {
         return toBeDeleted.id !== element.id;
@@ -65,15 +68,16 @@ export const AuthProvider = ({ children }: CartProps) => {
   };
 
   const removeAll = () => {
-  setCart([]);
-};
-
+    toast.error("Produtos removidos");
+    setCart([]);
+  };
 
   // Função para logar na aplicação, recebe os dados pegos do form de login
   const signIn = (userData: UserData) => {
     axios
       .post("https://server-hamburgueria-theo.herokuapp.com/login", userData)
       .then((response) => {
+        toast.success("Login feito com sucesso !");
         // setamos no localStorage o token, caso tenhamos a resposta esperada
         localStorage.setItem("token", response.data.token);
         // setamos no state o token, caso tenhamos a resposta esperada
@@ -86,12 +90,19 @@ export const AuthProvider = ({ children }: CartProps) => {
 
   const signUp = (userRegisterData: UserRegisterData) => {
     axios
-      .post("https://server-hamburgueria-theo.herokuapp.com/register", userRegisterData)
+      .post(
+        "https://server-hamburgueria-theo.herokuapp.com/register",
+        userRegisterData
+      )
       .then((response) => {
+        toast.success("Cadastro feito com sucesso !");
         // redirecionamos para a página logado
         history.push("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Email e/ou senha incorretos");
+        console.log(err);
+      });
   };
 
   // Função para deslogar da aplicação
@@ -126,7 +137,7 @@ export const AuthProvider = ({ children }: CartProps) => {
         Logout,
         signIn,
         removeCart,
-        removeAll
+        removeAll,
       }}
     >
       {children}
