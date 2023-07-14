@@ -18,7 +18,6 @@ interface CardProps {
 }
 
 const Card = ({ image, title, category, price, product }: CardProps) => {
-
   const { addCart } = useAuth();
 
   return (
@@ -33,7 +32,9 @@ const Card = ({ image, title, category, price, product }: CardProps) => {
       boxShadow="md"
     >
       <Box display="flex" bg="grey.0" justifyContent="center">
-        <Image boxSize="150px" src={image} alt={title} />
+        <>
+          <Image boxSize="150px" src={image} alt={title || ""} />
+        </>
       </Box>
 
       <Box m="5px" textAlign="center">
@@ -58,7 +59,12 @@ const Card = ({ image, title, category, price, product }: CardProps) => {
         }).format(price)}
       </Box>
       <Box textAlign="center">
-        <Button onClick={()=>addCart(product)}  bg="green.500" color="white.0" mt="2">
+        <Button
+          onClick={() => addCart(product)}
+          bg="green.500"
+          color="white.0"
+          mt="2"
+        >
           Adicionar
         </Button>
       </Box>

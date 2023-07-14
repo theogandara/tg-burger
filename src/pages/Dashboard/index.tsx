@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadProducts();
-  },[]);
+  }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -66,7 +66,7 @@ const Dashboard = () => {
                 placeholder="Digitar Pesquisa"
               />
               <InputRightElement mr="2">
-                <Button h="1.75rem" bg="green.500" size="sm" >
+                <Button h="1.75rem" bg="green.500" size="sm">
                   <BiSearch color="#fff" />
                 </Button>
               </InputRightElement>
@@ -95,7 +95,7 @@ const Dashboard = () => {
 
                 <AiOutlineShoppingCart />
               </Button>
-              <Button onClick={()=> Logout()} bg="grey.0" w="50px" ml="1">
+              <Button onClick={() => Logout()} bg="grey.0" w="50px" ml="1">
                 <FiLogOut />
               </Button>
             </Flex>
@@ -125,7 +125,7 @@ const Dashboard = () => {
           ))}
         </Flex>
       </Flex>
-      {/* Modal */}
+
       <Modal
         size="md"
         scrollBehavior="inside"
@@ -161,7 +161,9 @@ const Dashboard = () => {
             <Button color="green.500" mr={3} onClick={onClose}>
               Finalizar compra
             </Button>
-            <Button onClick={()=> removeAll()} variant="ghost">Excluir todos</Button>
+            <Button onClick={() => removeAll()} variant="ghost">
+              Excluir todos
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
